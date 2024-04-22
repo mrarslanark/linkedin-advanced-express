@@ -27,7 +27,7 @@ const server = http.createServer(app);
 /**
  * Listen on provided port, on all network interfaces.
  */
-db.connect(database.cs, process.env.NODE_ENV)
+db.connect(database.cs, process.env.NODE_ENV || "development")
   .then(() => {
     console.log("Connected to MongoDB");
     server.listen(port);

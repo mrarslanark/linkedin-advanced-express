@@ -2,6 +2,7 @@
 const fs = require("fs");
 const path = require("path");
 const util = require("util");
+const { database } = require("../../server/config");
 
 let AvatarService = null;
 let db = null;
@@ -54,20 +55,20 @@ module.exports.validUser = {
 };
 
 module.exports.before = async () => {
-  // if (db) {
-  //   await db.connect(config.database);
-  // }
+  if (db) {
+    await db.connect(database.cs, process.env.NODE_ENV || "development");
+  }
   if (UserModel) {
     return UserModel.deleteMany({});
   }
   return true;
 };
 
-module.exports.after = async () => {
+module.exports.after = async (done) => {
   if (UserModel) {
     await UserModel.deleteMany({});
   }
-  return deleteFilesInDir(config.data.avatars);
+  return await deleteFilesInDir(config.data.avatars);
 };
 
 // Local helper function that creates a user
