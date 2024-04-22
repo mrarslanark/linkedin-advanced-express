@@ -1,7 +1,7 @@
 /* eslint-disable global-require */
-const fs = require('fs');
-const path = require('path');
-const util = require('util');
+const fs = require("fs");
+const path = require("path");
+const util = require("util");
 
 let AvatarService = null;
 let db = null;
@@ -9,26 +9,26 @@ let UserModel = null;
 
 try {
   // eslint-disable-next-line import/no-unresolved
-  db = require('../../server/lib/db');
+  db = require("../../server/lib/db");
 } catch (err) {
-  console.log('db ignored');
+  console.log("db ignored");
 }
 
 try {
   // eslint-disable-next-line import/no-unresolved
-  UserModel = require('../../server/models/UserModel');
+  UserModel = require("../../server/models/UserModel");
 } catch (err) {
-  console.log('UserModel ignored');
+  console.log("UserModel ignored");
 }
 
 try {
   // eslint-disable-next-line import/no-unresolved
-  AvatarService = require('../../server/services/AvatarService');
+  AvatarService = require("../../server/services/AvatarService");
 } catch (err) {
-  console.log('Avatars ignored');
+  console.log("Avatars ignored");
 }
 
-const config = require('../../server/config').test;
+const config = require("../../server/config").test;
 
 const fsReaddir = util.promisify(fs.readdir);
 const fsUnlink = util.promisify(fs.unlink);
@@ -48,15 +48,15 @@ module.exports.AvatarService = AvatarService;
 module.exports.config = config;
 
 module.exports.validUser = {
-  username: 'Frank',
-  email: 'frank@acme.org',
-  password: 'verysecret',
+  username: "Frank",
+  email: "frank@acme.org",
+  password: "verysecret",
 };
 
 module.exports.before = async () => {
-  if (db) {
-    await db.connect(config.database.dsn);
-  }
+  // if (db) {
+  //   await db.connect(config.database);
+  // }
   if (UserModel) {
     return UserModel.deleteMany({});
   }
@@ -71,13 +71,15 @@ module.exports.after = async () => {
 };
 
 // Local helper function that creates a user
-module.exports.createUser = async (agent, user) => agent
-  .post('/users/registration')
-  .set('content-type', 'application/x-www-form-urlencoded')
-  .send(user);
+module.exports.createUser = async (agent, user) =>
+  agent
+    .post("/users/registration")
+    .set("content-type", "application/x-www-form-urlencoded")
+    .send(user);
 
 // Local helper function that logs a user in
-module.exports.loginUser = async (agent, email, password) => agent
-  .post('/users/login')
-  .set('content-type', 'application/x-www-form-urlencoded')
-  .send({ email, password });
+module.exports.loginUser = async (agent, email, password) =>
+  agent
+    .post("/users/login")
+    .set("content-type", "application/x-www-form-urlencoded")
+    .send({ email, password });

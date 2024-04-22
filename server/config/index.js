@@ -4,7 +4,7 @@ const path = require("path");
 
 module.exports = {
   database: {
-    cs: process.env.DB_CS,
+    cs: process.env.DB_URI,
   },
   development: {
     sitename: "Roux Meetups [Development]",
@@ -14,7 +14,7 @@ module.exports = {
       avatars: path.join(__dirname, "../data/avatars"),
     },
     database: {
-      dsn: process.env.DEVELOPMENT_DB_DSN,
+      name: process.env.DB_DEVELOPMENT,
     },
   },
   production: {
@@ -25,7 +25,7 @@ module.exports = {
       avatars: path.join(__dirname, "../data/avatars"),
     },
     database: {
-      dsn: process.env.PRODUCTION_DB_DSN,
+      name: process.env.DB_PRODUCTION,
     },
   },
   test: {
@@ -36,7 +36,7 @@ module.exports = {
       avatars: path.join(__dirname, "../data/avatars/test"),
     },
     database: {
-      dsn: process.env.TEST_DB_DSN,
+      name: process.env.DB_TEST,
     },
   },
 };
