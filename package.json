@@ -1,0 +1,33 @@
+{
+  "name": "meetup",
+  "version": "0.0.0",
+  "private": true,
+  "scripts": {
+    "start": "node ./bin/www",
+    "test": "npx mocha --exit --recursive test/"
+  },
+  "dependencies": {
+    "bcrypt": "^5.1.1",
+    "body-parser": "^1.20.2",
+    "cookie-parser": "~1.4.4",
+    "debug": "~2.6.9",
+    "dotenv": "^16.4.5",
+    "email-validator": "^2.0.4",
+    "express": "~4.16.1",
+    "http-errors": "~1.6.3",
+    "mongodb": "^6.5.0",
+    "mongoose": "^8.3.2",
+    "morgan": "~1.9.1",
+    "pug": "2.0.0-beta11",
+    "uuid": "^9.0.1"
+  },
+  "devDependencies": {
+    "chai": "^4.4.1",
+    "chai-as-promised": "^7.1.1",
+    "chai-http": "^4.4.0",
+    "eslint": "^8.57.0",
+    "eslint-config-airbnb-base": "^15.0.0",
+    "eslint-plugin-import": "^2.29.1",
+    "mocha": "^10.4.0"
+  }
+}
