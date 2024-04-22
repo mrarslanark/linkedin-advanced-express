@@ -1,10 +1,40 @@
 const express = require("express");
 const UserModel = require("../../models/UserModel");
+const passport = require("passport");
 
 const router = express.Router();
 
+function redirectIfLoggedIn(req, res, next) {
+  if (req.user) {
+    return res.redirect("/users/account");
+  }
+
+  return next();
+}
+
 module.exports = () => {
-  router.get("/registration", (req, res) =>
+  router.post(
+    "/login",
+    passport.authenticate("local", {
+      successRedirect: "/",
+      failureRedirect: "/users/login?error=true",
+    })
+  );
+
+  router.get("/login", redirectIfLoggedIn, (req, res) =>
+    res.render("users/login", { error: req.query.error })
+  );
+
+  router.get("/logout", (req, res) => {
+    req.logout({ keepSessionInfo: false }, (err) => {
+      if (err) {
+        return next(err);
+      }
+      return res.redirect("/");
+    });
+  });
+
+  router.get("/registration", redirectIfLoggedIn, (req, res) =>
     res.render("users/registration", { success: req.query.success })
   );
 
@@ -27,8 +57,15 @@ module.exports = () => {
     }
   });
 
-  router.get("/account", (req, res) =>
-    res.render("users/account", { user: req.user })
+  router.get(
+    "/account",
+    (req, res, next) => {
+      if (req.user) {
+        return next();
+      }
+      return res.status(401).end();
+    },
+    (req, res) => res.render("users/account", { user: req.user })
   );
 
   return router;

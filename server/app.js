@@ -10,6 +10,8 @@ const routes = require("./routes");
 const SpeakerService = require("./services/SpeakerService");
 const FeedbackService = require("./services/FeedbackService");
 const { database } = require("./config");
+const auth = require("./lib/auth");
+const passport = require("passport");
 
 module.exports = (config) => {
   const app = express();
@@ -37,6 +39,10 @@ module.exports = (config) => {
       }),
     })
   );
+
+  app.use(passport.initialize());
+  app.use(passport.session());
+  app.use(auth.setUser);
 
   app.use(async (req, res, next) => {
     try {
