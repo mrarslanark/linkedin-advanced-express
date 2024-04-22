@@ -64,7 +64,7 @@ module.exports.before = async () => {
   return true;
 };
 
-module.exports.after = async (done) => {
+module.exports.after = async () => {
   if (UserModel) {
     await UserModel.deleteMany({});
   }
