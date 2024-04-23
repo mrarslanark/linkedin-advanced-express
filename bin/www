@@ -11,6 +11,8 @@ const http = require("http");
 const db = require("../server/lib/db");
 const { database } = require("../server/config");
 
+const log = config.log();
+
 /**
  * Get port from environment and store in Express.
  */
@@ -29,10 +31,10 @@ const server = http.createServer(app);
  */
 db.connect(database.cs, process.env.NODE_ENV || "development")
   .then(() => {
-    console.log("Connected to MongoDB");
+    log.info("Connected to MongoDB");
     server.listen(port);
   })
-  .catch((err) => console.error(err));
+  .catch((err) => log.fatal(err));
 
 server.on("error", onError);
 server.on("listening", onListening);
@@ -71,11 +73,11 @@ function onError(error) {
   // handle specific listen errors with friendly messages
   switch (error.code) {
     case "EACCES":
-      console.error(bind + " requires elevated privileges");
+      log.fatal(bind + " requires elevated privileges");
       process.exit(1);
       break;
     case "EADDRINUSE":
-      console.error(bind + " is already in use");
+      log.fatal(bind + " is already in use");
       process.exit(1);
       break;
     default:

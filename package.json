@@ -3,14 +3,16 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
-    "start": "NODE_ENV=development node ./bin/www",
-    "start:test": "NODE_ENV=test node ./bin/www",
-    "start:production": "NODE_ENV=production node ./bin/www",
+    "start": "NODE_ENV=development node ./bin/www | bunyan",
+    "start:test": "NODE_ENV=test node ./bin/www | bunyan",
+    "start:production": "NODE_ENV=production node ./bin/www | bunyan",
     "test": "npx mocha --exit --recursive test/"
   },
   "dependencies": {
     "bcrypt": "^5.1.1",
     "body-parser": "^1.20.2",
+    "bunyan": "^1.8.15",
+    "compression": "^1.7.4",
     "connect-mongo": "^5.1.0",
     "cookie-parser": "~1.4.4",
     "debug": "~2.6.9",
