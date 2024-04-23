@@ -1,4 +1,5 @@
 const express = require("express");
+const helmet = require("helmet");
 const cookieParser = require("cookie-parser");
 const session = require("express-session");
 const MongoStore = require("connect-mongo");
@@ -16,6 +17,7 @@ const AvatarService = require("./services/AvatarService");
 
 module.exports = (config) => {
   const app = express();
+  app.use(helmet());
   app.use(compression());
   const speakers = new SpeakerService(config.data.speakers);
   const feedback = new FeedbackService(config.data.feedback);
