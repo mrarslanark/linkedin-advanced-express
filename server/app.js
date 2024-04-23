@@ -33,17 +33,36 @@ module.exports = (config) => {
 
   app.use(bodyParser.urlencoded({ extended: true }));
   app.use(cookieParser());
-  app.use(
-    session({
-      secret: "very secret 12345",
-      resave: true,
-      saveUninitialized: false,
-      store: MongoStore.create({
-        mongoUrl: database.cs,
-        dbName: process.env.NODE_ENV || "development",
-      }),
-    })
-  );
+
+  if (app.get("env") === "production") {
+    app.set("trust proxy", "loopback");
+    app.use(
+      session({
+        secret: "another very secret 12345",
+        name: "sessionId",
+        proxy: true,
+        cookie: { secure: true },
+        resave: true,
+        saveUninitialized: false,
+        store: MongoStore.create({
+          mongoUrl: database.cs,
+          dbName: process.env.NODE_ENV || "development",
+        }),
+      })
+    );
+  } else {
+    app.use(
+      session({
+        secret: "very secret 12345",
+        resave: true,
+        saveUninitialized: false,
+        store: MongoStore.create({
+          mongoUrl: database.cs,
+          dbName: process.env.NODE_ENV || "development",
+        }),
+      })
+    );
+  }
 
   app.use(passport.initialize());
   app.use(passport.session());
